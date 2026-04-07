@@ -141,18 +141,17 @@ document.addEventListener('DOMContentLoaded', () => {
       ease: 'power2.in'
     }, 1.4)
 
-    // Stage 4a — seal rises upward first (ease out)
+    // Stage 4a — seal rises straight up (ease out)
+    .set(seal, { transformOrigin: '50% 50%', x: 0 })
     .to(seal, {
       y: -120,
-      rotation: -8,
       duration: 0.55,
       ease: 'power2.out'
     }, 1.0)
 
-    // Stage 4b — then drops to the bottom with cubic-bezier gravity
+    // Stage 4b — then drops straight down with gravity
     .to(seal, {
-      y: () => window.innerHeight,
-      rotation: 30,
+      y: () => window.innerHeight + 200,
       duration: 1.3,
       ease: 'power3.in'
     }, 1.55)

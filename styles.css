@@ -225,14 +225,11 @@ a {
 /* Wax seal — white with gold flecks */
 .wax-seal {
   position: relative;
-  width: 320px;
-  height: 320px;
+  width: min(92vmin, 620px);
+  height: min(92vmin, 620px);
   z-index: 5;
   cursor: pointer;
   animation: sealBreathe 3s ease-in-out infinite;
-}
-@media (max-width: 480px) {
-  .wax-seal { width: 220px; height: 220px; }
 }
 /* Ripple rings emanating from seal */
 .wax-ripple {
@@ -277,7 +274,7 @@ a {
   font-family: var(--font-display);
   font-weight: 600;
   letter-spacing: 0.05em;
-  font-size: 4.5rem;
+  font-size: clamp(3rem, 18vmin, 7rem);
   color: #4a3a1f;
   line-height: 1;
   text-shadow:
@@ -462,7 +459,7 @@ a {
   bottom: 10%;
   transform: translateX(-50%);
   font-family: var(--font-display);
-  font-size: 0.85rem;
+  font-size: clamp(0.75rem, 2.8vmin, 1rem);
   letter-spacing: 0.35em;
   text-transform: uppercase;
   color: rgba(90, 70, 40, 0.65);
@@ -544,13 +541,6 @@ a {
   to { opacity: 1; transform: translateY(0); }
 }
 
-@media (max-width: 480px) {
-  .envelope { width: 320px; height: 210px; }
-  .envelope-script { font-size: 2rem; }
-  .wax-seal { width: 90px; height: 90px; margin-left: -45px; margin-top: -45px; }
-  .wax-monogram { font-size: 1.8rem; }
-  .li-names { font-size: 1.6rem; }
-}
 
 /* ---------- Music Toggle ---------- */
 .music-toggle {
