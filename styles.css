@@ -73,14 +73,11 @@ a {
   display: none !important;
 }
 
-/* ---------- Preloader ---------- */
+/* ---------- Envelope Loader (minimalist) ---------- */
 #preloader {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: var(--color-bg);
+  inset: 0;
+  background: radial-gradient(ellipse at center, #efe7da 0%, #d9cdb8 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -94,64 +91,391 @@ a {
   pointer-events: none;
 }
 
-.preloader-inner {
+.envelope-scene {
+  perspective: 1600px;
+  perspective-origin: 50% 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.2rem;
+}
+
+.envelope {
   position: relative;
+  width: 440px;
+  height: 290px;
+  transform-style: preserve-3d;
+  filter: drop-shadow(0 30px 40px rgba(60, 40, 20, 0.35));
+  transition: transform 1s ease, filter 1s ease;
+}
+
+/* two halves of the envelope body that split apart on open */
+.env-half {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background:
+    radial-gradient(ellipse at 50% 50%, #f3ecdf 0%, #e6dac5 100%);
+  box-shadow: inset 0 0 40px rgba(180, 150, 100, 0.08);
+  z-index: 2;
+  transition: transform 1.1s cubic-bezier(.55,.05,.2,1), opacity 0.9s ease;
+}
+
+.env-half::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(115deg, rgba(255,255,255,0.22) 0%, transparent 45%),
+    linear-gradient(-20deg, rgba(120,90,50,0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.env-top {
+  top: 0;
+  height: 55%;
+  border-radius: 3px 3px 0 0;
+  box-shadow: inset 0 0 40px rgba(180, 150, 100, 0.08), 0 1px 0 rgba(90,70,40,0.12);
+  transform-origin: 50% 0%;
+  clip-path: polygon(0 0, 100% 0, 100% 55%, 50% 100%, 0 55%);
+  z-index: 4;
+}
+
+.env-bot {
+  top: 0;
+  height: 100%;
+  border-radius: 0 0 3px 3px;
+  box-shadow: inset 0 0 40px rgba(180, 150, 100, 0.08), 0 -1px 0 rgba(90,70,40,0.12);
+  background:
+    radial-gradient(ellipse at 50% 80%, #ede1c8 0%, #dccdb0 100%);
+  z-index: 2;
+}
+.env-bot::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 55%;
+  background: linear-gradient(180deg, rgba(0,0,0,0.08), transparent);
+  clip-path: polygon(0 0, 100% 0, 50% 80%);
+  pointer-events: none;
+}
+
+/* content layer sitting on top of both halves */
+.env-content {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.envelope-script, .envelope-url {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.envelope-script {
+  position: absolute;
+  top: 30%;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: 'Pinyon Script', 'Dancing Script', cursive;
+  font-size: 2.8rem;
+  color: #3a2e22;
+  letter-spacing: 0.01em;
+  transform: rotate(-2deg);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.3);
+}
+
+.envelope-url {
+  position: absolute;
+  top: 60%;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #6b5640;
+}
+
+.envelope-seam {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 50%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(90,70,40,0.22), transparent);
+}
+
+/* Wax seal — white with gold flecks */
+.wax-seal {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 118px;
+  height: 118px;
+  margin-left: -59px;
+  margin-top: -59px;
+  z-index: 5;
+  cursor: pointer;
+  transition: transform 0.4s ease;
+  animation: sealBreathe 3s ease-in-out infinite;
+}
+
+.wax-seal:hover .wax-core { transform: scale(1.04); }
+
+.wax-core {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 38% 32%, #ffffff 0%, #f5ede0 55%, #dfd3bd 100%);
+  box-shadow:
+    0 8px 20px rgba(60, 45, 25, 0.35),
+    0 2px 6px rgba(60, 45, 25, 0.2),
+    inset -6px -8px 14px rgba(180, 150, 100, 0.25),
+    inset 4px 6px 14px rgba(255, 255, 255, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
+  clip-path: polygon(
+    50% 0%, 58% 3%, 68% 1%, 78% 6%, 86% 12%, 94% 20%,
+    98% 30%, 100% 42%, 98% 54%, 96% 66%, 90% 76%, 82% 86%,
+    72% 94%, 60% 98%, 48% 100%, 36% 96%, 24% 90%, 16% 82%,
+    8% 72%, 3% 60%, 1% 48%, 4% 34%, 10% 22%, 18% 12%, 28% 5%, 40% 1%
+  );
+  transition: transform 0.35s ease, opacity 0.3s ease;
 }
 
-.ornament-ring {
-  position: absolute;
-  width: 120px;
-  height: 120px;
-  border: 1px solid var(--color-gold);
-  border-radius: 50%;
-  animation: ringPulse 2s ease-in-out infinite;
-}
-
-.ornament-ring::before {
+.wax-core::before {
   content: '';
   position: absolute;
-  top: -8px;
-  left: -8px;
-  right: -8px;
-  bottom: -8px;
-  border: 1px solid rgba(212, 175, 55, 0.3);
+  inset: 10px;
+  border: 1px dashed rgba(120, 90, 50, 0.2);
   border-radius: 50%;
-  animation: ringPulse 2s ease-in-out infinite 0.3s;
+  pointer-events: none;
 }
 
-.preloader-text {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+.wax-monogram {
+  font-family: 'Pinyon Script', cursive;
+  font-size: 2.4rem;
+  color: #4a3a26;
+  line-height: 1;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.6);
 }
 
-.preloader-letter, .preloader-amp {
-  font-family: var(--font-display);
-  font-size: 2.5rem;
-  font-weight: 200;
-  letter-spacing: 0.15em;
-  color: var(--color-gold);
-  opacity: 0;
-  animation: fadeInUp 0.6s ease forwards;
-  animation-delay: calc(var(--i) * 0.2s);
-}
-
-.preloader-amp {
+.wax-monogram span {
   font-size: 1.5rem;
-  font-style: normal;
+  margin: 0 2px;
+  vertical-align: middle;
 }
 
-@keyframes ringPulse {
-  0%, 100% { transform: scale(1); opacity: 0.5; }
-  50% { transform: scale(1.1); opacity: 1; }
+.wax-fleck {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: radial-gradient(circle, #d4af37 0%, #b8941e 70%, transparent 100%);
+  border-radius: 50%;
+  opacity: 0.85;
+  box-shadow: 0 0 2px rgba(212, 175, 55, 0.6);
+}
+
+.wax-fleck:nth-child(even) { width: 2px; height: 2px; }
+
+/* Shards — small wedge divs at seal center that fly outward on break */
+.wax-shard {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 22px;
+  height: 22px;
+  margin-left: -11px;
+  margin-top: -11px;
+  background: radial-gradient(circle at 40% 30%, #ffffff 0%, #ede2ce 60%, #c9bc9f 100%);
+  clip-path: polygon(50% 0, 100% 70%, 60% 100%, 0 80%, 15% 25%);
+  opacity: 0;
+  transform: rotate(var(--a)) translate(0, 0) scale(0.7);
+  pointer-events: none;
+  box-shadow: 0 2px 4px rgba(60,45,25,0.3);
+}
+
+.dust-burst {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 6;
+}
+
+.dust-particle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 4px;
+  height: 4px;
+  margin-left: -2px;
+  margin-top: -2px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #f7d975 0%, #d4af37 55%, transparent 100%);
+  opacity: 0;
+  box-shadow: 0 0 6px rgba(212, 175, 55, 0.8);
+  mix-blend-mode: screen;
+}
+
+@keyframes sealBreathe {
+  0%, 100% { filter: drop-shadow(0 0 0 rgba(212,175,55,0)); }
+  50% { filter: drop-shadow(0 0 10px rgba(212,175,55,0.45)); }
+}
+
+/* Letter hidden behind envelope halves — revealed and rises on open */
+.letter-inside {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 8%;
+  bottom: 8%;
+  background: linear-gradient(180deg, #fdfaf3 0%, #f5ede0 100%);
+  border-radius: 2px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.2rem;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(0) scale(0.95);
+  transition: transform 1.2s cubic-bezier(.2,.8,.2,1) 0.35s, opacity 0.5s ease 0.35s;
+  pointer-events: none;
+}
+
+.li-small {
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #8b6914;
+  margin-bottom: 0.8rem;
+}
+
+.li-names {
+  font-family: 'Pinyon Script', cursive;
+  font-size: 2.4rem;
+  color: #2c2018;
+  margin-bottom: 0.4rem;
+  font-weight: 400;
+}
+
+.li-names span { color: #b8941e; margin: 0 0.2rem; }
+
+.li-rule {
+  width: 80px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #b8941e, transparent);
+  margin: 0.4rem 0 0.8rem;
+}
+
+.li-date {
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  letter-spacing: 0.24em;
+  color: #6b5420;
+  text-transform: uppercase;
+}
+
+.envelope-caption {
+  text-align: center;
+  margin-top: -0.8rem;
+  color: #5a4630;
+}
+.envelope-caption .ec-names {
+  font-family: 'Pinyon Script', cursive;
+  font-size: 1.15rem;
+  line-height: 1;
+  margin: 0 0 0.35rem;
+  color: #3a2e22;
+}
+.envelope-caption .ec-date {
+  font-family: var(--font-body);
+  font-size: 0.55rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(90, 70, 40, 0.7);
+  margin: 0;
+}
+
+.envelope-hint {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: rgba(90, 70, 40, 0.55);
+  animation: hintPulse 2.2s ease-in-out infinite;
+}
+
+@keyframes hintPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.9; }
+}
+
+/* ========== OPENING STATE ========== */
+#preloader.opening .wax-seal { animation: none; }
+
+#preloader.opening .wax-core {
+  transform: scale(0);
+  opacity: 0;
+}
+
+#preloader.opening .env-content { opacity: 0; }
+
+#preloader.opening .env-top {
+  transform: rotateX(-180deg);
+  transition: transform 1.2s cubic-bezier(.55,.05,.2,1);
+}
+
+#preloader.opening .letter-inside {
+  opacity: 1;
+  transform: translateY(-90px) scale(1.08) rotate(-1deg);
+}
+
+#preloader.opening .envelope-hint {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#preloader.zooming {
+  background: radial-gradient(ellipse at center, #efe7da 0%, #1a1a1a 100%);
+  transition: background 1s ease;
+}
+
+#preloader.zooming .envelope {
+  transform: scale(4.5) translateY(-40px);
+  filter: drop-shadow(0 30px 40px rgba(60,40,20,0)) blur(4px);
+  transition: transform 1.4s cubic-bezier(.6,0,.4,1), filter 1.4s ease;
+}
+
+#preloader.zooming .letter-inside {
+  transform: translateY(-90px) scale(1.08) rotate(-1deg);
 }
 
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 480px) {
+  .envelope { width: 320px; height: 210px; }
+  .envelope-script { font-size: 2rem; }
+  .wax-seal { width: 90px; height: 90px; margin-left: -45px; margin-top: -45px; }
+  .wax-monogram { font-size: 1.8rem; }
+  .li-names { font-size: 1.6rem; }
 }
 
 /* ---------- Music Toggle ---------- */

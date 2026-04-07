@@ -9,7 +9,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@200;300;400;500;600&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@200;300;400;500;600&family=Outfit:wght@200;300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet" />
 
   <!-- GSAP + ScrollTrigger -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -40,13 +40,50 @@
 
   <!-- ========== PRELOADER ========== -->
   <div id="preloader">
-    <div class="preloader-inner">
-      <div class="ornament-ring"></div>
-      <div class="preloader-text">
-        <span class="preloader-letter" style="--i:0">S</span>
-        <span class="preloader-amp" style="--i:1">&</span>
-        <span class="preloader-letter" style="--i:2">R</span>
+    <div class="envelope-scene">
+      <div class="envelope" id="envelope">
+        <!-- letter hidden behind the envelope halves -->
+        <div class="letter-inside">
+          <p class="li-small">you are invited</p>
+          <h2 class="li-names">Sardor <span>&amp;</span> Rakhshona</h2>
+          <div class="li-rule"></div>
+          <p class="li-date">April 24, 2026 &middot; Fergana</p>
+        </div>
+
+        <!-- envelope split into top and bottom halves -->
+        <div class="env-half env-top"></div>
+        <div class="env-half env-bot"></div>
+
+        <!-- wax seal -->
+        <div class="wax-seal" id="waxSeal">
+          <div class="wax-core">
+            <div class="wax-monogram">S<span>&amp;</span>R</div>
+            <span class="wax-fleck" style="top:18%;left:22%"></span>
+            <span class="wax-fleck" style="top:28%;left:70%"></span>
+            <span class="wax-fleck" style="top:62%;left:18%"></span>
+            <span class="wax-fleck" style="top:72%;left:62%"></span>
+            <span class="wax-fleck" style="top:46%;left:80%"></span>
+            <span class="wax-fleck" style="top:14%;left:50%"></span>
+          </div>
+          <!-- shards that fly outward when the seal breaks -->
+          <div class="wax-shard" style="--a:15deg"></div>
+          <div class="wax-shard" style="--a:55deg"></div>
+          <div class="wax-shard" style="--a:95deg"></div>
+          <div class="wax-shard" style="--a:140deg"></div>
+          <div class="wax-shard" style="--a:185deg"></div>
+          <div class="wax-shard" style="--a:225deg"></div>
+          <div class="wax-shard" style="--a:270deg"></div>
+          <div class="wax-shard" style="--a:315deg"></div>
+        </div>
+
+        <!-- gold dust burst container (particles injected by JS) -->
+        <div class="dust-burst" id="dustBurst"></div>
       </div>
+      <div class="envelope-caption">
+        <p class="ec-names">Sardor &amp; Rakhshona</p>
+        <p class="ec-date">April 24, 2026 &middot; Fergana</p>
+      </div>
+      <p class="envelope-hint" id="envelopeHint">click the seal to open</p>
     </div>
   </div>
 
