@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sardor & Raxshona — Wedding Invitation</title>
+  <meta name="description" content="You are cordially invited to celebrate the wedding of Sardor & Raxshona" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@200;300;400;500;600&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- tsParticles for petal effects -->
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles-slim@2.12.0/tsparticles.slim.bundle.min.js"></script>
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Background music -->
+  <audio id="bgMusic" src="public/extracted-audio.mp3" loop preload="auto"></audio>
+  <button id="musicToggle" class="music-toggle" aria-label="Toggle music">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="icon-music">
+      <path d="M9 18V5l12-2v13"/>
+      <circle cx="6" cy="18" r="3"/>
+      <circle cx="18" cy="16" r="3"/>
+    </svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="icon-muted" style="display:none">
+      <path d="M9 18V5l12-2v13"/>
+      <circle cx="6" cy="18" r="3"/>
+      <circle cx="18" cy="16" r="3"/>
+      <line x1="3" y1="3" x2="21" y2="21"/>
+    </svg>
+  </button>
+
+  <!-- ========== PRELOADER ========== -->
+  <div id="preloader">
+    <div class="preloader-inner">
+      <div class="ornament-ring"></div>
+      <div class="preloader-text">
+        <span class="preloader-letter" style="--i:0">S</span>
+        <span class="preloader-amp" style="--i:1">&</span>
+        <span class="preloader-letter" style="--i:2">R</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== NAVIGATION ========== -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">S & R</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#countdown">Countdown</a></li>
+        <li><a href="#event">Event</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ========== HERO SECTION ========== -->
+  <section id="hero" class="section hero">
+    <div class="hero-bg-image" style="background-image: url('public/IMG_4600-colored.JPG')"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-invite">Together with their families</p>
+      <h1 class="hero-names">
+        <span class="name name-groom">Sardor</span>
+        <span class="hero-amp">and</span>
+        <span class="name name-bride">Rakhshona</span>
+      </h1>
+      <p class="hero-request">Request the honour of your presence at their wedding</p>
+      <div class="hero-date">
+        <span class="hero-date-day">Friday</span>
+        <span class="hero-date-divider"></span>
+        <span class="hero-date-center">
+          <span class="hero-date-month">Apr.</span>
+          <span class="hero-date-num">24</span>
+          <span class="hero-date-year">2026</span>
+        </span>
+        <span class="hero-date-divider"></span>
+        <span class="hero-date-time">at 5</span>
+      </div>
+      <p class="hero-venue">Fergana, Uzbekistan</p>
+    </div>
+    <div class="scroll-indicator">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+    <!-- Decorative SVG corners -->
+    <svg class="corner-ornament top-left" viewBox="0 0 120 120" fill="none">
+      <path d="M0 0 L60 0 Q30 30 0 60 Z" fill="rgba(212,175,55,0.15)"/>
+      <path d="M10 0 Q10 50 60 50" stroke="rgba(212,175,55,0.3)" stroke-width="0.5" fill="none"/>
+      <path d="M0 10 Q50 10 50 60" stroke="rgba(212,175,55,0.3)" stroke-width="0.5" fill="none"/>
+    </svg>
+    <svg class="corner-ornament top-right" viewBox="0 0 120 120" fill="none">
+      <path d="M120 0 L60 0 Q90 30 120 60 Z" fill="rgba(212,175,55,0.15)"/>
+      <path d="M110 0 Q110 50 60 50" stroke="rgba(212,175,55,0.3)" stroke-width="0.5" fill="none"/>
+      <path d="M120 10 Q70 10 70 60" stroke="rgba(212,175,55,0.3)" stroke-width="0.5" fill="none"/>
+    </svg>
+    <svg class="corner-ornament bottom-left" viewBox="0 0 120 120" fill="none">
+      <path d="M0 120 L60 120 Q30 90 0 60 Z" fill="rgba(212,175,55,0.15)"/>
+      <path d="M10 120 Q10 70 60 70" stroke="rgba(212,175,55,0.3)" stroke-width="0.5" fill="none"/>
+      <path d="M0 110 Q50 110 50 60" stroke="rgba(212,175,55,0.3)" stroke-width="0.5" fill="none"/>
+    </svg>
+    <svg class="corner-ornament bottom-right" viewBox="0 0 120 120" fill="none">
+      <path d="M120 120 L60 120 Q90 90 120 60 Z" fill="rgba(212,175,55,0.15)"/>
+      <path d="M110 120 Q110 70 60 70" stroke="rgba(212,175,55,0.3)" stroke-width="0.5" fill="none"/>
+      <path d="M120 110 Q70 110 70 60" stroke="rgba(212,175,55,0.3)" stroke-width="0.5" fill="none"/>
+    </svg>
+  </section>
+
+  <!-- ========== COUNTDOWN ========== -->
+  <section id="countdown" class="section countdown-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="ornament-line light"></div>
+        <h2 class="section-title light">Counting Down to Forever</h2>
+        <div class="ornament-line light"></div>
+      </div>
+
+      <div class="countdown-grid">
+        <div class="countdown-card">
+          <div class="flip-card">
+            <span id="days" class="countdown-number">000</span>
+          </div>
+          <span class="countdown-label">Days</span>
+        </div>
+        <div class="countdown-card">
+          <div class="flip-card">
+            <span id="hours" class="countdown-number">00</span>
+          </div>
+          <span class="countdown-label">Hours</span>
+        </div>
+        <div class="countdown-card">
+          <div class="flip-card">
+            <span id="minutes" class="countdown-number">00</span>
+          </div>
+          <span class="countdown-label">Minutes</span>
+        </div>
+        <div class="countdown-card">
+          <div class="flip-card">
+            <span id="seconds" class="countdown-number">00</span>
+          </div>
+          <span class="countdown-label">Seconds</span>
+        </div>
+      </div>
+
+      <p class="countdown-message">Until we say "I do"</p>
+    </div>
+
+    <!-- Geometric pattern background -->
+    <div class="geometric-bg">
+      <svg class="geo-pattern" viewBox="0 0 200 200" preserveAspectRatio="none">
+        <defs>
+          <pattern id="islamicPattern" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
+            <path d="M25 0 L50 25 L25 50 L0 25 Z" fill="none" stroke="rgba(212,175,55,0.08)" stroke-width="0.5"/>
+            <circle cx="25" cy="25" r="8" fill="none" stroke="rgba(212,175,55,0.06)" stroke-width="0.5"/>
+            <circle cx="0" cy="0" r="4" fill="none" stroke="rgba(212,175,55,0.06)" stroke-width="0.5"/>
+            <circle cx="50" cy="0" r="4" fill="none" stroke="rgba(212,175,55,0.06)" stroke-width="0.5"/>
+            <circle cx="50" cy="50" r="4" fill="none" stroke="rgba(212,175,55,0.06)" stroke-width="0.5"/>
+            <circle cx="0" cy="50" r="4" fill="none" stroke="rgba(212,175,55,0.06)" stroke-width="0.5"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#islamicPattern)"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ========== EVENT DETAILS ========== -->
+  <section id="event" class="section event-section">
+    <div class="container">
+      <div class="event-card" data-animate>
+        <h2 class="event-title">Ceremony and Reception</h2>
+        <p class="event-time">5 PM</p>
+
+        <div class="event-description">
+          <p>We're getting married! We'd like to share a few words with everyone. Dinner, drinks, and dancing to follow!</p>
+        </div>
+
+        <div class="event-info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="event-info-icon">
+            <path d="M6.5 2L2 7l4.5 5M17.5 2L22 7l-4.5 5"/>
+            <path d="M2 7h20"/>
+          </svg>
+          <span>Cocktail Attire</span>
+        </div>
+
+        <div class="event-info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="event-info-icon">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+          <span>A.Yassaviy Street 26, Fergana, Fergana Region, Uzbekistan</span>
+        </div>
+
+        <!-- Embedded Google Map -->
+        <div class="event-map">
+          <iframe
+            src="https://www.google.com/maps?q=A.Yassaviy+Street+26,+Fergana,+Uzbekistan&output=embed"
+            width="100%"
+            height="350"
+            style="border:0; border-radius: 12px;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+
+        <!-- Directions link only -->
+        <div class="event-actions">
+          <a href="https://www.google.com/maps/dir//A.Yassaviy+Street+26,+Fergana,+Uzbekistan" target="_blank" rel="noopener" class="event-action-link">
+            Directions <span>&rarr;</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PHOTO DIVIDER 2 ========== -->
+  <section class="photo-divider">
+    <img class="photo-divider-img" src="public/IMG_4541-2.JPG" alt="Sardor &amp; Rakshona" loading="lazy" />
+  </section>
+
+  <!-- ========== GALLERY ========== -->
+  <section id="gallery" class="section gallery">
+    <div class="container">
+      <div class="section-header">
+        <div class="ornament-line"></div>
+        <h2 class="section-title">Our Moments</h2>
+        <div class="ornament-line"></div>
+      </div>
+
+      <div class="gallery-grid">
+        <div class="gallery-item gallery-3d" data-animate>
+          <img src="public/IMG_4621-colored.JPG" alt="Sardor &amp; Rakshona" loading="lazy" />
+          <div class="gallery-overlay"><span>Elegance</span></div>
+        </div>
+        <div class="gallery-item gallery-3d" data-animate>
+          <img src="public/IMG_4541-1.JPG" alt="Sardor &amp; Rakshona" loading="lazy" />
+          <div class="gallery-overlay"><span>Timeless</span></div>
+        </div>
+        <div class="gallery-item gallery-3d" data-animate>
+          <img src="public/IMG_4600-colored.JPG" alt="Sardor &amp; Rakshona" loading="lazy" />
+          <div class="gallery-overlay"><span>Together</span></div>
+        </div>
+        <div class="gallery-item gallery-3d" data-animate>
+          <img src="public/IMG_4554-1.JPG" alt="Sardor &amp; Rakshona" loading="lazy" />
+          <div class="gallery-overlay"><span>Closeness</span></div>
+        </div>
+        <div class="gallery-item gallery-3d" data-animate>
+          <img src="public/IMG_4622-colored.JPG" alt="Sardor &amp; Rakshona" loading="lazy" />
+          <div class="gallery-overlay"><span>Promise</span></div>
+        </div>
+        <div class="gallery-item gallery-3d" data-animate>
+          <img src="public/IMG_4541-2.JPG" alt="Sardor &amp; Rakshona" loading="lazy" />
+          <div class="gallery-overlay"><span>Forever</span></div>
+        </div>
+        <div class="gallery-item gallery-3d" data-animate>
+          <img src="public/IMG_4625-colored.JPG" alt="Sardor &amp; Rakshona" loading="lazy" />
+          <div class="gallery-overlay"><span>Radiance</span></div>
+        </div>
+        <div class="gallery-item gallery-3d" data-animate>
+          <img src="public/IMG_4554-2.JPG" alt="Sardor &amp; Rakshona" loading="lazy" />
+          <div class="gallery-overlay"><span>Always</span></div>
+        </div>
+        <div class="gallery-item gallery-3d" data-animate>
+          <img src="public/IMG_4633-colored.JPG" alt="Sardor &amp; Rakshona" loading="lazy" />
+          <div class="gallery-overlay"><span>Joy</span></div>
+        </div>
+        <div class="gallery-item gallery-3d" data-animate>
+          <img src="public/IMG_4600-2-colored.JPG" alt="Sardor &amp; Rakshona" loading="lazy" />
+          <div class="gallery-overlay"><span>Love</span></div>
+        </div>
+        <div class="gallery-item gallery-3d" data-animate>
+          <img src="public/IMG_4692-colored.JPG" alt="Sardor &amp; Rakshona" loading="lazy" />
+          <div class="gallery-overlay"><span>Us</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-ornament">
+        <svg viewBox="0 0 200 30" fill="none" class="suzani-divider">
+          <path d="M0 15 Q25 0 50 15 Q75 30 100 15 Q125 0 150 15 Q175 30 200 15" stroke="rgba(212,175,55,0.4)" stroke-width="1" fill="none"/>
+          <path d="M0 15 Q25 5 50 15 Q75 25 100 15 Q125 5 150 15 Q175 25 200 15" stroke="rgba(212,175,55,0.2)" stroke-width="0.5" fill="none"/>
+        </svg>
+      </div>
+      <h2 class="footer-names">Sardor & Raxshona</h2>
+      <p class="footer-date">April 24, 2026 — Fergana</p>
+      <p class="footer-message">Made with love</p>
+      <div class="footer-hearts">
+        <span>&#10084;</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
