@@ -220,27 +220,19 @@ document.addEventListener('DOMContentLoaded', () => {
     iconMusic.style.display = on ? '' : 'none';
     iconMuted.style.display = on ? 'none' : '';
   }
-  setPlaying(true);
 
-  // Try autoplay (most browsers block it until user interaction)
-  const tryPlay = () => music.play().then(() => setPlaying(true)).catch(() => {});
-  tryPlay();
-
-  // Start on first user interaction if autoplay was blocked
-  const startOnInteract = () => {
-    if (!musicPlaying) tryPlay();
-    window.removeEventListener('click', startOnInteract);
-    window.removeEventListener('touchstart', startOnInteract);
-    window.removeEventListener('keydown', startOnInteract);
-  };
-  window.addEventListener('click', startOnInteract);
-  window.addEventListener('touchstart', startOnInteract);
-  window.addEventListener('keydown', startOnInteract);
+  music.muted = false;
+  music.autoplay = true;
+  music.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
 
   musicBtn.addEventListener('click', (e) => {
     e.stopPropagation();
-    if (musicPlaying) { music.pause(); setPlaying(false); }
-    else { tryPlay(); }
+    if (!music.paused) {
+      music.pause();
+      setPlaying(false);
+    } else {
+      music.play().then(() => setPlaying(true)).catch(() => {});
+    }
   });
 
   // ========== SMOOTH SCROLL FOR NAV LINKS ==========
