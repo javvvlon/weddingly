@@ -332,6 +332,20 @@ document.addEventListener('DOMContentLoaded', () => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const img = entry.target;
+          const item = img.closest('.gallery-item');
+          if (item) item.classList.add('is-loading');
+          img.addEventListener('load', () => {
+            if (item) {
+              item.classList.remove('is-loading');
+              item.classList.add('is-loaded');
+            }
+          }, { once: true });
+          img.addEventListener('error', () => {
+            if (item) {
+              item.classList.remove('is-loading');
+              item.classList.add('is-error');
+            }
+          }, { once: true });
           img.src = img.dataset.src;
           img.removeAttribute('data-src');
           obs.unobserve(img);
