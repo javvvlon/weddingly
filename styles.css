@@ -1249,8 +1249,6 @@ a {
   letter-spacing: 0.2em;
   text-transform: uppercase;
 }
-  display: block;
-}
 
 .gallery-item.visible {
   opacity: 1;
