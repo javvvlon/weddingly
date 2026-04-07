@@ -220,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
     iconMusic.style.display = on ? '' : 'none';
     iconMuted.style.display = on ? 'none' : '';
   }
-  setPlaying(false);
+  setPlaying(true);
 
   // Try autoplay (most browsers block it until user interaction)
   const tryPlay = () => music.play().then(() => setPlaying(true)).catch(() => {});
