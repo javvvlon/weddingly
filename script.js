@@ -325,6 +325,24 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(el);
   });
 
+  // ========== LAZY-LOAD GALLERY IMAGES (only when near viewport) ==========
+  const lazyImgs = document.querySelectorAll('.gallery-item img[data-src]');
+  if ('IntersectionObserver' in window && lazyImgs.length) {
+    const imgObserver = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          img.src = img.dataset.src;
+          img.removeAttribute('data-src');
+          obs.unobserve(img);
+        }
+      });
+    }, { rootMargin: '400px 0px' });
+    lazyImgs.forEach(img => imgObserver.observe(img));
+  } else {
+    lazyImgs.forEach(img => { img.src = img.dataset.src; });
+  }
+
   // ========== COUNTDOWN TIMER ==========
   const weddingDate = new Date('2026-04-24T18:30:00+05:00').getTime();
 
