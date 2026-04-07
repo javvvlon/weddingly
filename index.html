@@ -40,50 +40,34 @@
 
   <!-- ========== PRELOADER ========== -->
   <div id="preloader">
-    <div class="envelope-scene">
-      <div class="envelope" id="envelope">
-        <!-- letter hidden behind the envelope halves -->
-        <div class="letter-inside">
-          <p class="li-small">you are invited</p>
-          <h2 class="li-names">Sardor <span>&amp;</span> Rakhshona</h2>
-          <div class="li-rule"></div>
-          <p class="li-date">April 24, 2026 &middot; Fergana</p>
+    <div class="seal-scene">
+      <div class="wax-seal" id="waxSeal">
+        <div class="wax-ripple"></div>
+        <div class="wax-ripple"></div>
+        <div class="wax-ripple"></div>
+        <div class="wax-core">
+          <svg class="wax-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+            </defs>
+            <!-- elevated disc: slightly lighter than page bg so it lifts -->
+            <circle cx="100" cy="100" r="94" fill="#faf3e2"/>
+            <!-- inner dotted rings -->
+            <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(110,80,35,0.5)" stroke-width="1.4" stroke-dasharray="0.1 5" stroke-linecap="round"/>
+            <circle cx="100" cy="100" r="68" fill="none" stroke="rgba(110,80,35,0.35)" stroke-width="1.2" stroke-dasharray="0.1 4" stroke-linecap="round"/>
+          </svg>
+          <div class="wax-monogram">S<span>&amp;</span>R</div>
         </div>
-
-        <!-- envelope split into top and bottom halves -->
-        <div class="env-half env-top"></div>
-        <div class="env-half env-bot"></div>
-
-        <!-- wax seal -->
-        <div class="wax-seal" id="waxSeal">
-          <div class="wax-core">
-            <div class="wax-monogram">S<span>&amp;</span>R</div>
-            <span class="wax-fleck" style="top:18%;left:22%"></span>
-            <span class="wax-fleck" style="top:28%;left:70%"></span>
-            <span class="wax-fleck" style="top:62%;left:18%"></span>
-            <span class="wax-fleck" style="top:72%;left:62%"></span>
-            <span class="wax-fleck" style="top:46%;left:80%"></span>
-            <span class="wax-fleck" style="top:14%;left:50%"></span>
-          </div>
-          <!-- shards that fly outward when the seal breaks -->
-          <div class="wax-shard" style="--a:15deg"></div>
-          <div class="wax-shard" style="--a:55deg"></div>
-          <div class="wax-shard" style="--a:95deg"></div>
-          <div class="wax-shard" style="--a:140deg"></div>
-          <div class="wax-shard" style="--a:185deg"></div>
-          <div class="wax-shard" style="--a:225deg"></div>
-          <div class="wax-shard" style="--a:270deg"></div>
-          <div class="wax-shard" style="--a:315deg"></div>
-        </div>
-
-        <!-- gold dust burst container (particles injected by JS) -->
-        <div class="dust-burst" id="dustBurst"></div>
+        <div class="wax-shard" style="--a:15deg"></div>
+        <div class="wax-shard" style="--a:55deg"></div>
+        <div class="wax-shard" style="--a:95deg"></div>
+        <div class="wax-shard" style="--a:140deg"></div>
+        <div class="wax-shard" style="--a:185deg"></div>
+        <div class="wax-shard" style="--a:225deg"></div>
+        <div class="wax-shard" style="--a:270deg"></div>
+        <div class="wax-shard" style="--a:315deg"></div>
       </div>
-      <div class="envelope-caption">
-        <p class="ec-names">Sardor &amp; Rakhshona</p>
-        <p class="ec-date">April 24, 2026 &middot; Fergana</p>
-      </div>
-      <p class="envelope-hint" id="envelopeHint">click the seal to open</p>
+      <div class="dust-burst" id="dustBurst"></div>
+      <p class="envelope-hint" id="envelopeHint">click the seal to begin</p>
     </div>
   </div>
 

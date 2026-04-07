@@ -22,6 +22,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Spawn extra heart confetti inside the seal for a fuller burst
+  const sealEl = document.getElementById('waxSeal');
+  if (sealEl) {
+    const EXTRA_HEARTS = 24;
+    for (let i = 0; i < EXTRA_HEARTS; i++) {
+      const h = document.createElement('div');
+      h.className = 'wax-shard';
+      h.style.setProperty('--a', `${(360 / EXTRA_HEARTS) * i}deg`);
+      sealEl.appendChild(h);
+    }
+  }
+
   const openEnvelope = () => {
     if (opened) return;
     opened = true;
@@ -33,8 +45,17 @@ document.addEventListener('DOMContentLoaded', () => {
       music.play().catch(() => {});
     }
 
+    const seal = document.getElementById('waxSeal');
     const shards = preloader.querySelectorAll('.wax-shard');
     const particles = preloader.querySelectorAll('.dust-particle');
+    const ripples = preloader.querySelectorAll('.wax-ripple');
+    const hint = document.getElementById('envelopeHint');
+
+    // Radial (circular) distribution helpers
+    const SHARD_RADIUS = 360;
+    const DUST_RADIUS = 440;
+    const shardCount = shards.length;
+    const particleCount = particles.length;
 
     const tl = gsap.timeline({
       defaults: { ease: 'power2.out' },
@@ -44,75 +65,120 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Stage 1 — pre-break pulse + flash
-    tl.to('.wax-core', {
-      scale: 1.12,
-      duration: 0.22,
-      ease: 'back.out(2)'
-    })
-    .to('.wax-core', {
-      filter: 'brightness(1.7)',
-      duration: 0.09,
-      yoyo: true,
-      repeat: 1
-    }, '<')
+    // Stage 0 — hide hint
+    tl.to(hint, { opacity: 0, duration: 0.3 }, 0)
 
-    // Stage 2 — shards fly outward
-    .set(shards, { opacity: 1 }, 0.25)
-    .to(shards, {
-      x: () => gsap.utils.random(-220, 220),
-      y: () => gsap.utils.random(-180, 180),
-      rotation: () => `+=${gsap.utils.random(-260, 260)}`,
-      scale: () => gsap.utils.random(0.7, 1.4),
-      duration: 1.1,
-      ease: 'power3.out',
-      stagger: { each: 0.015, from: 'random' }
-    }, 0.28)
-    .to(shards, {
+    // Stage 1 — ripple rings expand outward from the seal
+    .to(ripples, {
+      scale: 3.2,
       opacity: 0,
-      duration: 0.6,
-      ease: 'power2.in'
-    }, 0.9)
-
-    // Stage 2b — seal core disappears (scales to 0)
-    .to('.wax-core', {
-      scale: 0,
-      opacity: 0,
-      rotate: -20,
-      duration: 0.5,
-      ease: 'power2.in'
-    }, 0.3)
-
-    // Stage 3 — gold dust burst outward
-    .to(particles, {
-      x: () => gsap.utils.random(-220, 220),
-      y: () => gsap.utils.random(-180, 180),
-      opacity: 1,
-      scale: () => gsap.utils.random(0.8, 2.2),
-      duration: 1.0,
+      duration: 1.2,
       ease: 'power2.out',
-      stagger: { each: 0.008, from: 'random' }
-    }, 0.32)
-    .to(particles, {
+      stagger: 0.18,
+      keyframes: [
+        { scale: 0.85, opacity: 0, duration: 0 },
+        { opacity: 0.9, duration: 0.1 },
+        { scale: 3.2, opacity: 0, duration: 1.1, ease: 'power2.out' }
+      ]
+    }, 0)
+
+    // Stage 1b — core pulses in sync with ripple
+    .to('.wax-core', {
+      scale: 1.15,
+      duration: 0.35,
+      yoyo: true,
+      repeat: 1,
+      ease: 'sine.inOut'
+    }, 0)
+
+    // Stage 2 — hearts burst outward in a circle with varied sizes
+    .set(shards, {
+      opacity: 1,
+      scale: () => gsap.utils.random(0.5, 1.8)
+    }, 0.55)
+    .to(shards, {
+      x: (i) => Math.cos((i / shardCount) * Math.PI * 2 - Math.PI / 2) * gsap.utils.random(SHARD_RADIUS * 0.6, SHARD_RADIUS * 1.1),
+      y: (i) => Math.sin((i / shardCount) * Math.PI * 2 - Math.PI / 2) * gsap.utils.random(SHARD_RADIUS * 0.6, SHARD_RADIUS * 1.1),
+      rotation: () => gsap.utils.random(-90, 90),
+      duration: 0.9,
+      ease: 'power3.out'
+    }, 0.55)
+    // Stage 2b — gravity drop: hearts fall down off-screen with wobble
+    .to(shards, {
+      y: '+=' + (window.innerHeight + 400),
+      x: () => '+=' + gsap.utils.random(-80, 80),
+      rotation: () => '+=' + gsap.utils.random(120, 360),
+      duration: 1.8,
+      ease: 'power2.in',
+      stagger: { each: 0.015, from: 'random' }
+    }, 1.35)
+    .to(shards, {
       opacity: 0,
       duration: 0.6,
+      ease: 'power1.in'
+    }, 2.6)
+
+    // Stage 2b — core fades out after the burst
+    .to('.wax-core', {
+      opacity: 0,
+      scale: 0.7,
+      duration: 0.35,
       ease: 'power2.in'
+    }, 0.58)
+
+    // Stage 3 — gold dust also in a radial ring (slightly larger)
+    .to(particles, {
+      x: (i) => Math.cos((i / particleCount) * Math.PI * 2) * DUST_RADIUS,
+      y: (i) => Math.sin((i / particleCount) * Math.PI * 2) * DUST_RADIUS,
+      opacity: 1,
+      scale: 1.6,
+      duration: 1.15,
+      ease: 'power2.out'
+    }, 0.6)
+    .to(particles, {
+      opacity: 0,
+      duration: 0.55,
+      ease: 'power2.in'
+    }, 1.4)
+
+    // Stage 4a — seal rises upward first (ease out)
+    .to(seal, {
+      y: -120,
+      rotation: -8,
+      duration: 0.55,
+      ease: 'power2.out'
     }, 1.0)
 
-    // Stage 4 — envelope halves split apart, letter rises
-    .add(() => preloader.classList.add('opening'), 0.45)
+    // Stage 4b — then drops to the bottom with cubic-bezier gravity
+    .to(seal, {
+      y: () => window.innerHeight,
+      rotation: 30,
+      duration: 1.3,
+      ease: 'power3.in'
+    }, 1.55)
 
-    // Stage 5 — pause briefly on the revealed letter, then zoom into camera
-    .add(() => preloader.classList.add('zooming'), 2.4)
+    // Stage 5 — submerge: preloader blurs/scales up while hero rises underneath
     .to(preloader, {
       opacity: 0,
-      duration: 1.0,
+      scale: 1.15,
+      filter: 'blur(14px)',
+      duration: 1.4,
       ease: 'power2.inOut'
-    }, 3.0);
+    }, 3.0)
+    .fromTo('#hero', {
+      opacity: 0,
+      scale: 1.08,
+      filter: 'blur(10px)'
+    }, {
+      opacity: 1,
+      scale: 1,
+      filter: 'blur(0px)',
+      duration: 1.4,
+      ease: 'power2.out'
+    }, 3.1);
   };
 
   if (waxSeal) waxSeal.addEventListener('click', openEnvelope);
-  if (envelope) envelope.addEventListener('click', openEnvelope);
 
   // ========== HERO ANIMATION ==========
   gsap.set('.hero-invite', { y: 20, opacity: 0 });
